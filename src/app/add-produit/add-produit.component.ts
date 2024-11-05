@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'; // Import OnInit
 import { Produit } from '../model/produit.model';
 import { ProduitService } from '../services/produit.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-produit',
@@ -11,16 +12,16 @@ export class AddProduitComponent implements OnInit {
 
   message: string = ''; // Initialized as an empty string
 
-  constructor(private produitService: ProduitService) {}
+  constructor(private produitService: ProduitService, private router: Router) {}
 
   ngOnInit(): void {
     // Initialization logic can go here
   }
 
   addProduit() {
-    //console.log(this.newProduit);
-    this.produitService.ajouterProduit(this.newProduit);
-    this.message =
-      'Produit ' + this.newProduit.nomProduit + ' ajouté avec succès !'; // Added spaces for readability
+    this.produitService.ajouterProduit(this.newProduit).subscribe((prod) => {
+      console.log(prod);
+      this.router.navigate(['produits']);
+    });
   }
 }
